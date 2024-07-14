@@ -59,6 +59,11 @@ export class JSONDatabase implements Database {
     return { contenthash: nameData.contenthash, ttl: this.ttl };
   }
 
+  abi(name: string, key: string) {
+    console.log('abi', name, key)
+    return { abi: EMPTY_CONTENT_HASH, ttl: this.ttl };
+  }
+
   private findName(name: string) {
     if (this.data[name]) {
       return this.data[name];

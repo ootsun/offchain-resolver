@@ -25,6 +25,10 @@ export interface Database {
   contenthash(
     name: string
   ): PromiseOrResult<{ contenthash: string; ttl: number }>;
+  abi(
+      name: string,
+      coinType: number
+  ): PromiseOrResult<{ value: string; ttl: number }>;
 }
 
 function decodeDnsName(dnsname: Buffer) {
@@ -62,6 +66,10 @@ const queryHandlers: {
     const { contenthash, ttl } = await db.contenthash(name);
     return { result: [contenthash], ttl };
   },
+  'ABI(bytes32,uint256)': async (db, name, _args) => {
+  const { value, ttl } = await db.abi(name, ETH_COIN_TYPE);
+  return { result: [value], ttl };
+},
 };
 
 async function query(
